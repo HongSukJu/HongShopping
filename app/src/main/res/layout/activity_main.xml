@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/layout_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <include
+        layout="@layout/widget_toolbar"
+        android:id="@+id/toolbar_main" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/list_item"
+        android:layout_below="@id/toolbar_main"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="5dp" />
+
+    <RelativeLayout
+        android:clickable="true"
+        android:focusable="true"
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/layout_selling"
+        android:padding="10dp"
+        android:visibility="invisible"
+        android:background="@color/white">
+
+        <ImageView
+            android:id="@+id/image_selected"
+            android:src="@mipmap/ic_launcher"
+            android:layout_marginRight="5dp"
+            android:layout_marginEnd="5dp"
+            android:layout_width="120dp"
+            android:layout_height="120dp" />
+
+        <TextView
+            android:id="@+id/name_selected"
+            android:textSize="18sp"
+            android:layout_alignTop="@+id/image_selected"
+            android:layout_toRightOf="@+id/image_selected"
+            android:layout_toEndOf="@+id/image_selected"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/price_selected"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:layout_below="@+id/name_selected"
+            android:layout_toRightOf="@+id/image_selected"
+            android:layout_toEndOf="@+id/image_selected"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <Button
+            android:id="@+id/btn_buy"
+            android:text="@string/item_buy"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/image_selected"
+            android:layout_toStartOf="@+id/btn_cart"
+            android:layout_toLeftOf="@+id/btn_cart"
+            android:insetTop="0dp"
+            android:insetBottom="0dp"
+            app:backgroundTint="@color/black" />
+
+        <Button
+            android:id="@+id/btn_cart"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/image_selected"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:insetTop="0dp"
+            android:insetBottom="0dp"
+            android:text="@string/item_cart"
+            android:textColor="@color/black"
+            app:backgroundTint="@color/btn_semi_white" />
+
+        <RelativeLayout
+            android:layout_width="120dp"
+            android:layout_height="40dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true">
+
+            <Button
+                android:id="@+id/btn_minus"
+                android:layout_width="40dp"
+                android:layout_height="match_parent"
+                android:insetTop="0dp"
+                android:insetBottom="0dp"
+                android:text="@string/minus"
+                android:textColor="@color/black"
+                app:backgroundTint="@color/btn_semi_white" />
+
+            <TextView
+                android:id="@+id/quantity_selected"
+                android:textStyle="bold"
+                android:gravity="center"
+                android:layout_toRightOf="@+id/btn_minus"
+                android:layout_toEndOf="@+id/btn_minus"
+                android:layout_width="40dp"
+                android:layout_height="match_parent" />
+
+            <Button
+                android:id="@+id/btn_plus"
+                android:layout_width="40dp"
+                android:layout_height="match_parent"
+                android:layout_toEndOf="@+id/quantity_selected"
+                android:layout_toRightOf="@+id/quantity_selected"
+                android:insetTop="0dp"
+                android:insetBottom="0dp"
+                android:text="@string/plus"
+                android:textColor="@color/black"
+                app:backgroundTint="@color/btn_semi_white" />
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+</RelativeLayout>

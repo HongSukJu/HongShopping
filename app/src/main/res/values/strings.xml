@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">HongShopping</string>
+
+    <string name="item_buy">구매하기</string>
+    <string name="item_buy_all">모두 구매하기</string>
+    <string name="item_cart">장바구니 담기</string>
+
+    <string name="plus">+</string>
+    <string name="minus">-</string>
+
+    <string name="title_cart">Cart</string>
+    <string name="title_heart">Heart</string>
+</resources>

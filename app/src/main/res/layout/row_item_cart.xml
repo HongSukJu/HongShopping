@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/logo_item_cart"
+        android:layout_width="150dp"
+        android:layout_height="150dp" />
+
+    <LinearLayout
+        android:layout_toRightOf="@+id/logo_item_cart"
+        android:layout_toEndOf="@+id/logo_item_cart"
+        android:orientation="vertical"
+        android:gravity="center_vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingVertical="10dp">
+
+        <TextView
+            android:id="@+id/name_item_cart"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="@color/black" />
+
+        <TextView
+            android:id="@+id/price_quantity_item_cart"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:id="@+id/price_total_item_cart"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:textSize="24sp"
+        android:textColor="@android:color/darker_gray"
+        android:gravity="bottom"
+        android:layout_marginHorizontal="10dp"/>
+
+</RelativeLayout>
