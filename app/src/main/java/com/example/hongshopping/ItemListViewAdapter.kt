@@ -32,8 +32,7 @@ class ItemListViewAdapter(private val items: ArrayList<Item>, val onClickItem: (
         val item = items[position]
         holder.logo.setImageResource(item.logo)
         holder.name.text = item.name
-        val priceComma = NumberFormat.getNumberInstance(Locale.KOREA).format(item.price) + "원"
-        holder.price.text = priceComma
+        holder.price.text = String.format("%s%s", NumberFormat.getNumberInstance(Locale.KOREA).format(item.price), "원")
 
         holder.view.setOnClickListener {
             onClickItem(item)

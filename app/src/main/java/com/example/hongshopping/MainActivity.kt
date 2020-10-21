@@ -6,10 +6,8 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.widget.Button
-import android.widget.ImageView
-import android.widget.RelativeLayout
-import android.widget.TextView
+import android.widget.*
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -19,9 +17,6 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 class MainActivity : AppCompatActivity() {
-    // TODO: 셀링 창 없애는법이 있어야함.
-    private val cartList: ArrayList<CartItem> = ArrayList()
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -61,47 +56,66 @@ class MainActivity : AppCompatActivity() {
         val buyBtn: Button = findViewById(R.id.btn_buy)
         val cartBtn: Button = findViewById(R.id.btn_cart)
 
+        if (sellingLayout.visibility == View.VISIBLE && item.name == selectedName.text) {
+            sellingLayout.visibility = View.INVISIBLE
+            return
+        }
+
         var quantity = 1
-        var priceComma = NumberFormat.getNumberInstance(Locale.KOREA).format(item.price) + "원"
         selectedQuantity.text = quantity.toString()
 
         plusBtn.setOnClickListener {
             quantity++
             selectedQuantity.text = quantity.toString()
-            priceComma = NumberFormat.getNumberInstance(Locale.KOREA).format(item.price * quantity) + "원"
-            selectedPrice.text = priceComma
+            selectedPrice.text = String.format("%s%s", NumberFormat.getNumberInstance(Locale.KOREA).format(item.price * quantity), "원")
         }
         minusBtn.setOnClickListener {
             if (quantity == 1) return@setOnClickListener
             quantity--
             selectedQuantity.text = quantity.toString()
-            priceComma = NumberFormat.getNumberInstance(Locale.KOREA).format(item.price * quantity) + "원"
-            selectedPrice.text = priceComma
+            selectedPrice.text = String.format("%s%s", NumberFormat.getNumberInstance(Locale.KOREA).format(item.price * quantity), "원")
         }
         cartBtn.setOnClickListener {
-            if (cartList.any { ele -> ele.name == item.name }) {
-                // TODO: 이미 있는데 어떻게 할건지?
+            if (cartItemList.any { ele -> ele.name == item.name }) {
+                Toast.makeText(this, "이미 장바구니에 상품이 있습니다.", Toast.LENGTH_SHORT).show()
+                sellingLayout.visibility = View.INVISIBLE
                 return@setOnClickListener
             }
 
-            cartList.add(
+            cartItemList.add(
                     CartItem(item.name, item.price, item.logo, quantity)
             )
             val snackbar: Snackbar = Snackbar.make(
                     findViewById(R.id.layout_main),
                     "장바구니에 추가되었습니다.",
-                    Snackbar.LENGTH_LONG
+                    Snackbar.LENGTH_SHORT
             )
             sellingLayout.visibility = View.INVISIBLE
             snackbar.show()
         }
         buyBtn.setOnClickListener {
-            // TODO: 장바구니에 물건이 있으면, 무시하고 이것만 구입할건지, 아니면 추가하고 구매할건지.
+            val popupView: View = layoutInflater.inflate(R.layout.popup_buy, null)
+
+            val ignoreBuyBtn: Button = popupView.findViewById(R.id.btn_yes_popup)
+            val cancelBtn: Button = popupView.findViewById(R.id.btn_no_popup)
+
+            val builder: AlertDialog.Builder = AlertDialog.Builder(this)
+            builder.setView(popupView)
+
+            val alertDialog: AlertDialog = builder.create()
+            alertDialog.show()
+
+            ignoreBuyBtn.setOnClickListener {
+                // TODO: 무시하고 구매시 여기도 엑스트라로 보내야됨
+            }
+            cancelBtn.setOnClickListener {
+                alertDialog.dismiss()
+            }
         }
 
         selectedImage.setImageResource(item.logo)
         selectedName.text = item.name
-        selectedPrice.text = priceComma
+        selectedPrice.text = String.format("%s%s", NumberFormat.getNumberInstance(Locale.KOREA).format(item.price), "원")
 
         sellingLayout.visibility = View.VISIBLE
     }
@@ -118,10 +132,13 @@ class MainActivity : AppCompatActivity() {
         }
         R.id.menu_cart -> {
             val intent: Intent = Intent(this, CartActivity::class.java)
-            intent.putExtra("cartList", cartList)
             startActivity(intent)
             true
         }
         else -> super.onOptionsItemSelected(item)
+    }
+
+    companion object {
+        val cartItemList: ArrayList<CartItem> = ArrayList()
     }
 }
