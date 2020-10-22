@@ -10,6 +10,7 @@ import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.database.FirebaseDatabase
 import java.text.NumberFormat
 import java.util.*
 import kotlin.collections.ArrayList
@@ -57,7 +58,10 @@ class BuyActivity : AppCompatActivity() {
         val editPhone: EditText = findViewById(R.id.edit_phone)
         val editAddress: EditText = findViewById(R.id.edit_address)
 
-        if (editPhone.text.toString() == "" || editAddress.text.toString() == "") {
+        val phone: String = editPhone.text.toString()
+        val address: String = editAddress.text.toString()
+
+        if (phone == "" || address == "") {
             Toast.makeText(this, "전화번호나 주소를 전부 입력해주세요.", Toast.LENGTH_SHORT).show()
             return
         }
@@ -67,8 +71,30 @@ class BuyActivity : AppCompatActivity() {
         if (!direct) {
             MainActivity.cartItemList.clear()
         }
+
+        writeOrderInDateBase(phone, address)
         setResult(RESULT_OK)
         finish()
+    }
+
+    private fun writeOrderInDateBase(phone: String, address: String) {
+        val database: FirebaseDatabase = FirebaseDatabase.getInstance()
+        val myRef = database.getReference("order")
+
+        val items: ArrayList<Map<String, Any?>> = ArrayList()
+        buyItemList.forEach {
+            items.add(mapOf(
+                "name" to it.name,
+                "price" to it.price,
+                "quantity" to it.quantity
+            ))
+        }
+        val data: Map<String, Any?> = mapOf(
+            "phone" to phone,
+            "address" to address,
+            "items" to items
+        )
+        myRef.setValue(data)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean = when (item.itemId) {
@@ -79,4 +105,3 @@ class BuyActivity : AppCompatActivity() {
         else -> super.onOptionsItemSelected(item)
     }
 }
-

@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "876475156554",
+    "firebase_url": "https://fir-test-b81b9.firebaseio.com",
+    "project_id": "fir-test-b81b9",
+    "storage_bucket": "fir-test-b81b9.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:876475156554:android:cec9bdf25b8d319b60feb3",
+        "android_client_info": {
+          "package_name": "com.example.hongshopping"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "876475156554-7045u3huj7qvcrlvmal4eb3paophbhpf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCnqof1bS5qp_iWLhdEqte2XZ84_fwWsCQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "876475156554-7045u3huj7qvcrlvmal4eb3paophbhpf.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
