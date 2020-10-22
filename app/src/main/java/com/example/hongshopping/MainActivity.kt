@@ -99,7 +99,7 @@ class MainActivity : AppCompatActivity() {
                 buyItemList.clear()
                 buyItemList.add(BuyItem(item.name, item.price, item.logo, quantity))
                 val intent: Intent = Intent(this, BuyActivity::class.java)
-                startActivity(intent)
+                startActivityForResult(intent, BUY_ACT)
 
                 sellingLayout.visibility = View.INVISIBLE
 
@@ -121,7 +121,8 @@ class MainActivity : AppCompatActivity() {
                 buyItemList.clear()
                 buyItemList.add(BuyItem(item.name, item.price, item.logo, quantity))
                 val intent: Intent = Intent(this, BuyActivity::class.java)
-                startActivity(intent)
+                intent.putExtra("direct", true)
+                startActivityForResult(intent, BUY_ACT)
             }
             cancelBtn.setOnClickListener {
                 alertDialog.dismiss()
@@ -143,14 +144,41 @@ class MainActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean = when (item.itemId) {
         R.id.menu_cart -> {
             val intent: Intent = Intent(this, CartActivity::class.java)
-            startActivity(intent)
+            startActivityForResult(intent, CART_ACT)
             true
         }
         else -> super.onOptionsItemSelected(item)
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        val snackbar: Snackbar = Snackbar.make(
+                findViewById(R.id.layout_main),
+                "구매가 완료되었습니다.",
+                Snackbar.LENGTH_SHORT
+        )
+
+        when (requestCode) {
+            CART_ACT -> {
+                if (resultCode == RESULT_OK) {
+                    cartItemList.clear()
+                    snackbar.show()
+                }
+            }
+            BUY_ACT -> {
+                if (resultCode == RESULT_OK) {
+                    snackbar.show()
+                }
+            }
+        }
+    }
+
     companion object {
         val cartItemList: ArrayList<CartItem> = ArrayList()
         val buyItemList: ArrayList<BuyItem> = ArrayList()
+
+        const val CART_ACT: Int = 1
+        const val BUY_ACT: Int = 2
     }
 }

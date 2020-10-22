@@ -3,7 +3,10 @@ package com.example.hongshopping
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
+import android.view.View
+import android.widget.EditText
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -12,7 +15,6 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 class BuyActivity : AppCompatActivity() {
-    // TODO: 결제버튼 완성하기
     private var buyItemList: ArrayList<BuyItem> = MainActivity.buyItemList
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -51,6 +53,24 @@ class BuyActivity : AppCompatActivity() {
         buyItemListSumPrice.text = String.format("%s%s", NumberFormat.getNumberInstance(Locale.KOREA).format(sumPrice), "원")
     }
 
+    fun onClickBuyButton(view: View) {
+        val editPhone: EditText = findViewById(R.id.edit_phone)
+        val editAddress: EditText = findViewById(R.id.edit_address)
+
+        if (editPhone.text.toString() == "" || editAddress.text.toString() == "") {
+            Toast.makeText(this, "전화번호나 주소를 전부 입력해주세요.", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        val direct: Boolean = intent.getBooleanExtra("direct", false)
+
+        if (!direct) {
+            MainActivity.cartItemList.clear()
+        }
+        setResult(RESULT_OK)
+        finish()
+    }
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean = when (item.itemId) {
         android.R.id.home -> {
             onBackPressed()
@@ -59,3 +79,4 @@ class BuyActivity : AppCompatActivity() {
         else -> super.onOptionsItemSelected(item)
     }
 }
+

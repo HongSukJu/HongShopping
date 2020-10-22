@@ -4,6 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
+import android.view.View
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
@@ -29,11 +30,6 @@ class CartActivity : AppCompatActivity() {
         supportActionBar?.setDisplayShowHomeEnabled(true)
 
         setCartItemList()
-
-        val cartBuyBtn: Button = findViewById(R.id.btn_buy_cart)
-        cartBuyBtn.setOnClickListener {
-            onClickCartBuyButton()
-        }
     }
 
     private fun setCartItemList() {
@@ -57,7 +53,7 @@ class CartActivity : AppCompatActivity() {
         cartItemListViewAdapter.notifyDataSetChanged()
     }
 
-    private fun onClickCartBuyButton() {
+    fun onClickCartBuyButton(view: View) {
         if (cartItemList.none { it.checked }) {
             Toast.makeText(this, "선택된 상품이 없습니다.", Toast.LENGTH_SHORT).show()
             return
@@ -68,7 +64,7 @@ class CartActivity : AppCompatActivity() {
             MainActivity.buyItemList.add(BuyItem(it.name, it.price, it.logo, it.quantity))
         }
         val intent: Intent = Intent(this, BuyActivity::class.java)
-        startActivity(intent)
+        startActivityForResult(intent, MainActivity.BUY_ACT)
     }
 
     private fun setQuantityAndSumPrice() {
@@ -89,5 +85,18 @@ class CartActivity : AppCompatActivity() {
             true
         }
         else -> super.onOptionsItemSelected(item)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        when (requestCode) {
+            MainActivity.BUY_ACT -> {
+                if (resultCode == RESULT_OK) {
+                    setResult(RESULT_OK)
+                    finish()
+                }
+            }
+        }
     }
 }

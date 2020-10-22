@@ -70,6 +70,7 @@
     <Button
         android:id="@+id/btn_buy_cart"
         android:text="@string/item_buy_all"
+        android:onClick="onClickCartBuyButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:insetTop="0dp"

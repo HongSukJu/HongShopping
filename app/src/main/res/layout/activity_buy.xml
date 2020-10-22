@@ -125,6 +125,7 @@
 
     <Button
         android:text="@string/item_buy_decide"
+        android:onClick="onClickBuyButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:insetTop="0dp"
