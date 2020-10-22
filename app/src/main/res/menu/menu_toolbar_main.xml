@@ -4,13 +4,8 @@
 
     <item
         app:showAsAction="always"
-        android:id="@+id/menu_heart"
-        android:icon="@drawable/ic_favorite_white"
-        android:title="@string/title_heart" />
-
-    <item
-        app:showAsAction="always"
         android:id="@+id/menu_cart"
         android:icon="@drawable/ic_shopping_cart_white"
         android:title="@string/title_cart" />
+
 </menu>

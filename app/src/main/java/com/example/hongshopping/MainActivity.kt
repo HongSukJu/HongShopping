@@ -17,6 +17,14 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 class MainActivity : AppCompatActivity() {
+    private val itemList: ArrayList<Item> = ArrayList(mutableListOf(
+            Item("Nintendo Switch", 360000, R.drawable.img_switch),
+            Item("Xbox Series X", 598000, R.drawable.img_xbox_series_x),
+            Item("Xbox Series S", 398000, R.drawable.img_xbox_series_s),
+            Item("PlayStation5", 498000, R.drawable.img_playstation)
+    ))
+    private val itemListViewAdapter = ItemListViewAdapter(itemList, ::onClickItem)
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -30,13 +38,6 @@ class MainActivity : AppCompatActivity() {
 
     private fun setItemList() {
         val itemListView: RecyclerView = findViewById(R.id.list_item)
-        val itemList: ArrayList<Item> = ArrayList(mutableListOf(
-            Item("Nintendo Switch", 360000, R.drawable.img_switch),
-            Item("Xbox Series X", 598000, R.drawable.img_xbox_series_x),
-            Item("Xbox Series S", 398000, R.drawable.img_xbox_series_s),
-            Item("PlayStation5", 498000, R.drawable.img_playstation)
-        ))
-        val itemListViewAdapter = ItemListViewAdapter(itemList, ::onClickItem)
 
         itemListView.setHasFixedSize(true)
         itemListView.adapter = itemListViewAdapter
@@ -94,6 +95,17 @@ class MainActivity : AppCompatActivity() {
             snackbar.show()
         }
         buyBtn.setOnClickListener {
+            if (cartItemList.isEmpty()) {
+                buyItemList.clear()
+                buyItemList.add(BuyItem(item.name, item.price, item.logo, quantity))
+                val intent: Intent = Intent(this, BuyActivity::class.java)
+                startActivity(intent)
+
+                sellingLayout.visibility = View.INVISIBLE
+
+                return@setOnClickListener
+            }
+
             val popupView: View = layoutInflater.inflate(R.layout.popup_buy, null)
 
             val ignoreBuyBtn: Button = popupView.findViewById(R.id.btn_yes_popup)
@@ -106,7 +118,10 @@ class MainActivity : AppCompatActivity() {
             alertDialog.show()
 
             ignoreBuyBtn.setOnClickListener {
-                // TODO: 무시하고 구매시 여기도 엑스트라로 보내야됨
+                buyItemList.clear()
+                buyItemList.add(BuyItem(item.name, item.price, item.logo, quantity))
+                val intent: Intent = Intent(this, BuyActivity::class.java)
+                startActivity(intent)
             }
             cancelBtn.setOnClickListener {
                 alertDialog.dismiss()
@@ -126,10 +141,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean = when (item.itemId) {
-        R.id.menu_heart -> {
-            // TODO: 후에 찜 기능 추가? 할지말지모름
-            false
-        }
         R.id.menu_cart -> {
             val intent: Intent = Intent(this, CartActivity::class.java)
             startActivity(intent)
@@ -140,5 +151,6 @@ class MainActivity : AppCompatActivity() {
 
     companion object {
         val cartItemList: ArrayList<CartItem> = ArrayList()
+        val buyItemList: ArrayList<BuyItem> = ArrayList()
     }
 }

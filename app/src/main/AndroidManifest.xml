@@ -9,7 +9,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.HongShopping">
-        <activity android:name=".BuyingActivity" />
+        <activity android:name=".BuyActivity" />
         <activity android:name=".CartActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>

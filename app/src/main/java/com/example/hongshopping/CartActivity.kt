@@ -10,7 +10,6 @@ import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import org.w3c.dom.Text
 import java.text.NumberFormat
 import java.util.*
 import kotlin.collections.ArrayList
@@ -59,13 +58,16 @@ class CartActivity : AppCompatActivity() {
     }
 
     private fun onClickCartBuyButton() {
-        // TODO: 엑스트라로 보내야됨
         if (cartItemList.none { it.checked }) {
             Toast.makeText(this, "선택된 상품이 없습니다.", Toast.LENGTH_SHORT).show()
             return
         }
 
-        val intent: Intent = Intent(this, BuyingActivity::class.java)
+        MainActivity.buyItemList.clear()
+        cartItemList.filter { it.checked }.forEach {
+            MainActivity.buyItemList.add(BuyItem(it.name, it.price, it.logo, it.quantity))
+        }
+        val intent: Intent = Intent(this, BuyActivity::class.java)
         startActivity(intent)
     }
 
@@ -76,7 +78,7 @@ class CartActivity : AppCompatActivity() {
         cartItemListQuantity.text = String.format("%s%s", cartItemList.filter { it.checked }.size, "개")
         var sumPrice = 0
         cartItemList.filter { it.checked }.forEach {
-            sumPrice += it.price
+            sumPrice += it.price * it.quantity
         }
         cartItemListSumPrice.text = String.format("%s%s", NumberFormat.getNumberInstance(Locale.KOREA).format(sumPrice), "원")
     }
@@ -88,6 +90,4 @@ class CartActivity : AppCompatActivity() {
         }
         else -> super.onOptionsItemSelected(item)
     }
-
-
 }
